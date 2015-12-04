@@ -25,5 +25,15 @@ app.config(function($stateProvider) {
     templateUrl: '/artist.html',
     controller: 'ArtistCtrl'
   });
+  
+  $stateProvider.state('artist.albums',{
+    url: '/artists/:id/albums',
+    templateUrl: '/artist-albums.html',
+  });
+  
+  $stateProvider.state('artist.songs',{
+    url: '/artists/:id/songs',
+    templateUrl: '/artist-songs.html',
+  });
 
 });
