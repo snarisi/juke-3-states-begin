@@ -7,6 +7,7 @@
 	<link href="/style.css" rel="stylesheet" />
 	<script src="/lodash/index.js"></script>
 	<script src="/angular/angular.js"></script>
+	<script src="/angular-ui-router/build/angular-ui-router.min.js"></script>
 	<script src="/js/module.js"></script>
 	<script src="/js/controllers/album.js"></script>
 	<script src="/js/controllers/albums.js"></script>
@@ -26,19 +27,21 @@
 			<sidebar ng-controller="MenuCtrl">
 				<section>
 					<h4 class="playlist-item">
-						<a ng-click="viewAlbums()" href="#">ALBUMS</a>
+						<a ui-sref="albums">ALBUMS</a>
 					</h4>
 				</section>
 				<section>
 					<h4 class="playlist-item">
-						<a ng-click="viewArtists()" href="#">ARTISTS</a>
+						<a ui-sref="artists">ARTISTS</a>
 					</h4>
 				</section>
 			</sidebar>
 		</div>
 
 		<div class="col-xs-10">
+          <ui-view></ui-view>
 
+<!--
 			<div ng-controller="ArtistsCtrl" ng-show="showMe">
 				<h3>Artists</h3>
 				<div class="list-group">
@@ -134,6 +137,7 @@
 					</tbody>
 				</table>
 			</div>
+-->
 
 		</div>
 
