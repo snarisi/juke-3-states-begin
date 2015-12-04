@@ -13,4 +13,17 @@ app.config(function($stateProvider) {
     templateUrl: '/artists.html',
     controller: 'ArtistsCtrl'
   });
+
+  $stateProvider.state('album',{
+    url: '/albums/:id',
+    templateUrl: '/album.html',
+    controller: 'AlbumCtrl'
+  });
+
+  $stateProvider.state('artist',{
+    url: '/artists/:id',
+    templateUrl: '/artist.html',
+    controller: 'ArtistCtrl'
+  });
+
 });

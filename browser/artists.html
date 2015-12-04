@@ -2,7 +2,7 @@
     <h3>Artists</h3>
     <div class="list-group">
         <div class="list-group-item" ng-repeat="artist in artists">
-            <a ng-click="viewArtist(artist._id)" href="#">{{ artist.name }}</a>
+            <a ui-sref="artist({id: artist._id})">{{ artist.name }}</a>
         </div>
     </div>
 </div>
