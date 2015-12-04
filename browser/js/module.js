@@ -1,8 +1,12 @@
 var app = angular.module('juke', ['ui.router']);
 
-app.config(function($stateProvider, $urlRouterProvider) {
-
-  $urlRouterProvider.when('', '/albums');
+app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+  
+  if(window.history && window.history.pushState) {
+    $locationProvider.html5Mode({enabled: true});
+  }
+  
+  $urlRouterProvider.when('/', '/albums');
   $urlRouterProvider.when('/artists/{id}', '/artists/{id}/albums');
 
   $stateProvider.state('albums', {
@@ -39,7 +43,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
   });
 
   $stateProvider.state('artist',{
-   //abstract: true, //gives an error message when this is used
+   abstract: true, //gives an error message when this is used
     url: '/artists/:id',
     templateUrl: '/artist.html',
     controller: 'ArtistCtrl',

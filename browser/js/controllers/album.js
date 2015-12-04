@@ -10,6 +10,7 @@ app.controller('AlbumCtrl', function ($scope, PlayerFactory, album) {
 
 
 	$scope.album = album;
+    $scope.album.link = window.location.href;
 
 
 
