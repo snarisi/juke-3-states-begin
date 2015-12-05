@@ -53,7 +53,7 @@ app.factory('PlayerFactory', function ($rootScope) {
 		currentSongList = songList;
 		currentAudio = songCache[song._id];
 		currentAudio.currentTime = 0;
-		preLoad(getNextSong(currentSongList.indexOf(song)));
+		preLoad(getNextSong(currentSong));
 	}
 
 	Player.pause = function () {
@@ -73,14 +73,17 @@ app.factory('PlayerFactory', function ($rootScope) {
 		Player.resume();
 	};
 	
-	function getNextSong (index) {
+	function getNextSong (song) {
+		var index = currentSongList.indexOf(song);
 		index += currentSongList.length
 		index %= currentSongList.length;
 		return currentSongList[index + 1];
 	}
 
 	function moveTo (index) {
-		Player.start(getNextSong(index));
+		index += currentSongList.length
+		index %= currentSongList.length;
+		Player.start(currentSongList[index]);
 	};
 
 	Player.next = function () {
