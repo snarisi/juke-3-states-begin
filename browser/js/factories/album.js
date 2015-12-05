@@ -9,7 +9,7 @@ app.factory('AlbumFactory', function ($http, SongFactory, Cache, $q) {
         Cache.clean(albumCache, 1)
         
         //return a promise for the cache if the cache exists
-        if (albumCache.all) return Cache.returnCache(albumCache.all);
+        if (albumCache.all) return albumCache.all;
         
 		return $http.get('/api/albums')
 		.then(function (response) {
@@ -25,7 +25,7 @@ app.factory('AlbumFactory', function ($http, SongFactory, Cache, $q) {
       
         Cache.clean(albumCache, 1);
       
-        if (albumCache[id]) return Cache.returnCache(albumCache[id]);  
+        if (albumCache[id]) return albumCache[id];  
       
 		return $http.get('/api/albums/' + id)
 		.then(function (response) {

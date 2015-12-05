@@ -6,6 +6,27 @@ app.factory('PlayerFactory', function ($rootScope) {
 	var currentSong = null;
 	var progress = 0;
 	var Player = {};
+	
+	var songCache = {};
+	var currentAudio;
+
+	var makeAudio = function(url) {
+		var audio = document.createElement('audio');
+		audio.addEventListener('ended', function () {
+			tools.next();
+		});
+
+		audio.addEventListener('timeupdate', function () {
+			progress = 100 * audio.currentTime / audio.duration;
+			$rootScope.$digest();
+		});
+
+		audio.timeStamp = Date.now();
+		audio.src = url;
+		audio.load();
+		return audio;
+	}
+
 
 	Player.getCurrentSong = function () {
 		return currentSong;
@@ -20,20 +41,20 @@ app.factory('PlayerFactory', function ($rootScope) {
 	};
 
 	function load (song, songList) {
-		audio.src = song.audioUrl;
-		audio.load();
+		songCache[song._id] = songCache[song._id] || makeAudio(song.audioUrl);
 		currentSong = song;
 		currentSongList = songList;
+		currentAudio = songCache[song._id]
 		progress = 0;
 	}
 
 	Player.pause = function () {
-		audio.pause();
+		if (currentAudio) currentAudio.pause();
 		isPlaying = false;
 	};
 
 	Player.resume = function () {
-		audio.play();
+		currentAudio.play();
 		isPlaying = true;
 	};
 
