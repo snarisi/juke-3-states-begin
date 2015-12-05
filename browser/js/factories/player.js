@@ -39,11 +39,7 @@ app.factory('PlayerFactory', function ($rootScope) {
 		return isPlaying;
 	};
 
-//	load
-		
-	
 	function preLoad(song) {
-		console.log(song);
 		songCache[song._id] = songCache[song._id] || makeAudio(song.audioUrl);
 	}
 	
