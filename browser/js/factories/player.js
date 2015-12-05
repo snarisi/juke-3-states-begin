@@ -1,6 +1,5 @@
 app.factory('PlayerFactory', function ($rootScope) {
 
-	var audio = document.createElement('audio');
 	var isPlaying = false;
 	var currentSongList;
 	var currentSong = null;
@@ -13,11 +12,11 @@ app.factory('PlayerFactory', function ($rootScope) {
 	var makeAudio = function(url) {
 		var audio = document.createElement('audio');
 		audio.addEventListener('ended', function () {
-			tools.next();
+			Player.next();
 		});
 
 		audio.addEventListener('timeupdate', function () {
-			progress = 100 * audio.currentTime / audio.duration;
+			progress = audio.currentTime / audio.duration;
 			$rootScope.$digest();
 		});
 
@@ -40,12 +39,21 @@ app.factory('PlayerFactory', function ($rootScope) {
 		return isPlaying;
 	};
 
+//	load
+		
+	
+	function preLoad(song) {
+		console.log(song);
+		songCache[song._id] = songCache[song._id] || makeAudio(song.audioUrl);
+	}
+	
 	function load (song, songList) {
 		songCache[song._id] = songCache[song._id] || makeAudio(song.audioUrl);
 		currentSong = song;
 		currentSongList = songList;
-		currentAudio = songCache[song._id]
-		progress = 0;
+		currentAudio = songCache[song._id];
+		currentAudio.currentTime = 0;
+		preLoad(getNextSong(currentSongList.indexOf(song)));
 	}
 
 	Player.pause = function () {
@@ -64,11 +72,15 @@ app.factory('PlayerFactory', function ($rootScope) {
 		load(song, songList);
 		Player.resume();
 	};
-
-	function moveTo (index) {
+	
+	function getNextSong (index) {
 		index += currentSongList.length
 		index %= currentSongList.length;
-		Player.start(currentSongList[index]);
+		return currentSongList[index + 1];
+	}
+
+	function moveTo (index) {
+		Player.start(getNextSong(index));
 	};
 
 	Player.next = function () {
@@ -80,16 +92,6 @@ app.factory('PlayerFactory', function ($rootScope) {
 		var index = currentSongList.indexOf(currentSong);
 		moveTo(index - 1);
 	};
-
-	audio.addEventListener('timeupdate', function () {
-		progress = audio.currentTime / audio.duration;
-		$rootScope.$digest();
-	});
-
-	audio.addEventListener('ended', function () {
-		Player.next();
-		$rootScope.$digest();
-	});
 
 	return Player;
 });
